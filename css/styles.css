@@ -130,3 +130,71 @@ body {
 .breathing-circle { width: 400px; height: 400px; border-radius: 50%; background: rgba(56, 189, 248, 0.05); position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; pointer-events: none; opacity: 0; }
 .anim-breathe { opacity: 1; animation: breathe 8s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
 @keyframes breathe { 0%, 100% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.1; } 50% { transform: translate(-50%, -50%) scale(2); opacity: 0.8; } }
+
+/* --- ACTIVE INTERVENTION CLASSES --- */
+
+/* Depressed: Clean Slate */
+.clean-slate .metric-card, 
+.clean-slate .sidebar, 
+.clean-slate .top-nav,
+.clean-slate .task-card li:not(:first-child) {
+    display: none !important;
+}
+
+/* Depressed & Apathetic: Fact Overlay */
+.fact-overlay {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: var(--bg-card); color: var(--text-main);
+    padding: 3rem; border-radius: 12px; border: 1px solid var(--border);
+    z-index: 500; text-align: center; font-size: 1.5rem; max-width: 80%;
+    opacity: 1; transition: opacity 2s ease;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+.fact-fade-out { opacity: 0; pointer-events: none; }
+
+/* Anxious: Breathing Takeover */
+.breathing-takeover {
+    transform: translate(-50%, -50%) scale(12) !important;
+    background: rgba(56, 189, 248, 0.8) !important;
+    z-index: 250 !important;
+}
+.dashboard-blurred { filter: blur(15px); pointer-events: none; transition: filter 2s ease; }
+
+/* Stressed: Funnel Vision */
+.funnel-vision li:not(:first-child) { filter: blur(4px); opacity: 0.4; pointer-events: none; }
+
+/* Overstimulated: Extreme Zen */
+.zen-mode .sidebar, .zen-mode .top-nav { display: none !important; }
+.zen-mode .card { border: none; box-shadow: none; background: transparent; }
+
+/* Delulu: Sparkles */
+.sparkle {
+    position: fixed; pointer-events: none; font-size: 20px;
+    animation: sparkle-fade 1s linear forwards; z-index: 9999;
+}
+@keyframes sparkle-fade {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-30px) scale(0.5); }
+}
+
+/* Happy: Confetti & Gamification */
+.confetti {
+    position: fixed; width: 10px; height: 10px; z-index: 9999; top: -10px;
+    animation: confetti-fall 3s linear forwards;
+}
+@keyframes confetti-fall {
+    to { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+.combo-multiplier {
+    position: fixed; font-size: 2rem; font-weight: bold; color: var(--accent);
+    pointer-events: none; animation: pop-up 1s forwards; z-index: 9999;
+}
+@keyframes pop-up {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-50px) scale(1.5); }
+}
+
+/* Apathetic: The Shrug */
+.tilt-shrug {
+    transform: rotate(2deg); transform-origin: center; transition: transform 0.5s ease;
+}
