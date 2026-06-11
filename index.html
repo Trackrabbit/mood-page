@@ -3,21 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Mood Page</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Workspace | The Mood Page</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
     <div id="ambient-breathe" class="breathing-circle"></div>
 
-    <div class="container" id="main-container">
-        <div id="initial-view">
-            <button class="main-btn" id="trigger-btn">Mood</button>
-        </div>
+    <div class="dashboard-wrapper" id="main-container">
+        <header class="top-nav">
+            <div class="logo">CorpDash™</div>
+            <div class="user-profile">User Profile</div>
+        </header>
 
-        <div id="selector-view" class="hidden">
-            <h1>How are we feeling?</h1>
-            <p>Select your current state so we can adjust the room.</p>
+        <div class="dashboard-grid">
+            <aside class="sidebar">
+                <ul>
+                    <li>Dashboard</li>
+                    <li>Projects</li>
+                    <li>Messages <span class="badge">42</span></li>
+                    <li>Calendar</li>
+                    <li>Settings</li>
+                </ul>
+            </aside>
+
+            <main class="content">
+                <h1>Good Morning.</h1>
+                <p class="subtitle">Here is what is happening today.</p>
+
+                <div class="card-grid">
+                    <div class="card metric-card">
+                        <h3>Unread Emails</h3>
+                        <p class="big-number">142</p>
+                    </div>
+                    <div class="card metric-card">
+                        <h3>Overdue Tasks</h3>
+                        <p class="big-number">7</p>
+                    </div>
+                    <div class="card task-card">
+                        <h3>Action Items</h3>
+                        <ul>
+                            <li><input type="checkbox"> Finalize Q3 Report</li>
+                            <li><input type="checkbox"> Email Sarah about the timeline</li>
+                            <li><input type="checkbox"> Update the staging environment</li>
+                            <li><input type="checkbox"> Prep for 2:00 PM Sync</li>
+                        </ul>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <button class="floating-mood-btn" id="trigger-btn">Mood.</button>
+
+    <div id="selector-overlay" class="overlay hidden">
+        <div class="selector-modal">
+            <h2>How are we feeling?</h2>
+            <p>Select your state to adjust your workspace.</p>
             <div id="mood-selector">
                 <button class="mood-option" data-mood="depressed">Depressed</button>
                 <button class="mood-option" data-mood="anxious">Anxious</button>
@@ -28,19 +70,17 @@
                 <button class="mood-option" data-mood="delulu">Delulu</button>
                 <button class="mood-option" data-mood="apathetic">Apathetic</button>
             </div>
-        </div>
-
-        <div id="result-view" class="hidden">
-            <h1 id="result-title">Title</h1>
-            <p id="result-text">Description goes here.</p>
-            <div id="context-actions">
-                <button id="action-btn">Action</button>
-            </div>
+            <button id="close-selector-btn" class="close-btn">Cancel</button>
         </div>
     </div>
 
-    <button id="reset-btn" class="reset-btn hidden">Mood</button>
+    <div id="context-box" class="context-box hidden">
+        <h4 id="result-title">Title</h4>
+        <p id="result-text">Description goes here.</p>
+        <button id="action-btn" class="action-btn">Action</button>
+        <button id="reset-btn" class="dismiss-btn">Dismiss Mood</button>
+    </div>
 
-    <script src="scripts/app.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
