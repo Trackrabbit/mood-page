@@ -1,108 +1,132 @@
-/* Base Variables */
+/* Base Variables - Standard Corporate Dashboard */
 :root {
-    --bg-color: #f4f4f5;
-    --text-color: #18181b;
-    --btn-bg: #27272a;
+    --bg-main: #f3f4f6;
+    --bg-card: #ffffff;
+    --bg-sidebar: #1f2937;
+    --text-main: #111827;
+    --text-muted: #6b7280;
+    --text-sidebar: #f9fafb;
+    --border: #e5e7eb;
+    --accent: #3b82f6;
     --btn-text: #ffffff;
-    --transition-speed: 1.5s;
+    --transition-speed: 1s;
 }
 
-/* The Mood Themes */
+/* 🎭 MOOD THEMES (Overriding the variables) */
 body.theme-depressed {
-    --bg-color: #121214;
-    --text-color: #8b8b99;
-    --btn-bg: #272730;
-    --btn-text: #a1a1aa;
+    --bg-main: #121214; --bg-card: #18181b; --bg-sidebar: #09090b;
+    --text-main: #8b8b99; --text-muted: #52525b; --text-sidebar: #52525b;
+    --border: #27272a; --accent: #3f3f46; --btn-text: #a1a1aa;
 }
 
 body.theme-anxious {
-    --bg-color: #0c1b2e;
-    --text-color: #e0f2fe;
-    --btn-bg: #1e3a8a;
-    --btn-text: #bae6fd;
-}
-
-body.theme-happy {
-    --bg-color: #dcfce7;
-    --text-color: #14532d;
-    --btn-bg: #22c55e;
-    --btn-text: #ffffff;
+    --bg-main: #0c1b2e; --bg-card: #172a45; --bg-sidebar: #060d17;
+    --text-main: #e0f2fe; --text-muted: #7dd3fc; --text-sidebar: #bae6fd;
+    --border: #1e3a8a; --accent: #38bdf8;
 }
 
 body.theme-stressed {
-    --bg-color: #fffbeb;
-    --text-color: #78350f;
-    --btn-bg: #d97706;
-    --btn-text: #fffbeb;
+    --bg-main: #fffbeb; --bg-card: #fef3c7; --bg-sidebar: #78350f;
+    --text-main: #78350f; --text-muted: #92400e; --text-sidebar: #fef3c7;
+    --border: #fcd34d; --accent: #d97706;
 }
 
 body.theme-overstimulated {
-    --bg-color: #050505;
-    --text-color: #3f3f46;
-    --btn-bg: #09090b;
-    --btn-text: #27272a;
+    --bg-main: #000000; --bg-card: #050505; --bg-sidebar: #000000;
+    --text-main: #3f3f46; --text-muted: #27272a; --text-sidebar: #27272a;
+    --border: #09090b; --accent: #18181b; --btn-text: #3f3f46;
 }
 
 body.theme-burned-out {
-    --bg-color: #e5e5e5;
-    --text-color: #a3a3a3;
-    --btn-bg: #d4d4d4;
-    --btn-text: #737373;
+    --bg-main: #e5e5e5; --bg-card: #d4d4d4; --bg-sidebar: #a3a3a3;
+    --text-main: #737373; --text-muted: #52525b; --text-sidebar: #404040;
+    --border: #a3a3a3; --accent: #737373;
 }
 
 body.theme-delulu {
-    --bg-color: #fce7f3;
-    --text-color: #db2777;
-    --btn-bg: #ec4899;
-    --btn-text: #fdf2f8;
+    --bg-main: #fdf2f8; --bg-card: #fce7f3; --bg-sidebar: #db2777;
+    --text-main: #9d174d; --text-muted: #be185d; --text-sidebar: #fdf2f8;
+    --border: #fbcfe8; --accent: #ec4899;
 }
 
 body.theme-apathetic {
-    --bg-color: #d6d3d1;
-    --text-color: #57534e;
-    --btn-bg: #a8a29e;
-    --btn-text: #44403c;
+    --bg-main: #d6d3d1; --bg-card: #e7e5e4; --bg-sidebar: #78716c;
+    --text-main: #57534e; --text-muted: #78716c; --text-sidebar: #d6d3d1;
+    --border: #a8a29e; --accent: #78716c;
 }
 
 /* Global Styles */
 body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
+    background-color: var(--bg-main);
+    color: var(--text-main);
     font-family: system-ui, -apple-system, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
     margin: 0;
-    transition: background-color var(--transition-speed) ease-in-out, 
-                color var(--transition-speed) ease-in-out;
-    overflow: hidden;
+    transition: all var(--transition-speed) ease;
+    overflow-x: hidden;
 }
 
-.container {
-    text-align: center;
-    max-width: 600px;
-    padding: 2rem;
-    z-index: 10;
+/* Dashboard Layout */
+.dashboard-wrapper { height: 100vh; display: flex; flex-direction: column; z-index: 10; position: relative; }
+.top-nav { background: var(--bg-card); padding: 1rem 2rem; display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); transition: all var(--transition-speed) ease; }
+.logo { font-weight: bold; font-size: 1.2rem; }
+.dashboard-grid { display: flex; flex: 1; overflow: hidden; }
+.sidebar { width: 250px; background: var(--bg-sidebar); color: var(--text-sidebar); padding: 2rem; transition: all var(--transition-speed) ease; }
+.sidebar ul { list-style: none; padding: 0; margin: 0; }
+.sidebar li { padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between;}
+.badge { background: var(--accent); color: var(--btn-text); padding: 0.1rem 0.5rem; border-radius: 999px; font-size: 0.8rem; }
+.content { flex: 1; padding: 3rem; overflow-y: auto; }
+.subtitle { color: var(--text-muted); margin-top: -0.5rem; margin-bottom: 2rem; }
+
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+.card { background: var(--bg-card); padding: 1.5rem; border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: all var(--transition-speed) ease; }
+.big-number { font-size: 3rem; font-weight: bold; margin: 0.5rem 0; color: var(--accent); }
+.task-card ul { list-style: none; padding: 0; }
+.task-card li { padding: 0.5rem 0; border-bottom: 1px solid var(--border); display: flex; gap: 0.5rem; }
+
+/* The Mood Button */
+.floating-mood-btn {
+    position: fixed; bottom: 2rem; right: 2rem;
+    background: var(--text-main); color: var(--bg-main);
+    border: none; padding: 1rem 2rem; border-radius: 999px;
+    font-size: 1.2rem; font-weight: bold; cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 100;
+    transition: transform 0.2s;
 }
+.floating-mood-btn:hover { transform: scale(1.05); }
 
-h1 { font-size: 2.5rem; margin-bottom: 1rem; transition: color var(--transition-speed); }
-p { font-size: 1.2rem; line-height: 1.6; margin-bottom: 2rem; opacity: 0.9; }
+/* Overlays & Modals */
+.hidden { display: none !important; }
+.overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 200; }
+.selector-modal { background: var(--bg-card); padding: 2.5rem; border-radius: 12px; max-width: 500px; text-align: center; border: 1px solid var(--border); }
+#mood-selector { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin: 1.5rem 0; }
+.mood-option { background: transparent; border: 1px solid var(--border); color: var(--text-main); padding: 0.75rem 1rem; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+.mood-option:hover { background: var(--text-main); color: var(--bg-main); }
+.close-btn { background: transparent; color: var(--text-muted); border: none; cursor: pointer; margin-top: 1rem; }
 
-/* Buttons */
-button {
-    background-color: var(--btn-bg);
-    color: var(--btn-text);
-    border: none;
-    padding: 1rem 2rem;
-    font-size: 1.25rem;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: all 0.3s ease, background-color var(--transition-speed), color var(--transition-speed);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+/* The Context Box (Non-descript message) */
+.context-box {
+    position: fixed; top: 2rem; left: 50%; transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px); border: 1px solid var(--border);
+    padding: 1.5rem; border-radius: 12px; width: 400px; z-index: 150;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center;
 }
+.context-box h4 { margin: 0 0 0.5rem 0; font-size: 1.2rem; }
+.context-box p { margin: 0 0 1.5rem 0; font-size: 0.95rem; opacity: 0.9; }
+.action-btn { background: var(--accent); color: var(--btn-text); border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; width: 100%; margin-bottom: 0.5rem;}
+.dismiss-btn { background: transparent; border: 1px solid var(--border); color: var(--text-main); padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; width: 100%; font-size: 0.8rem;}
 
-button:hover { transform: translateY(-2px); opacity: 0.9; }
+/* Specific Mood Animations Applied to Dashboard Elements */
+.anim-float .dashboard-wrapper { animation: float 6s ease-in-out infinite; }
+@keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
 
-.main-btn { font-weight
+.anim-blur .content { filter: blur(4px); transition: filter 0.5s ease; }
+.anim-blur .content:hover { filter: blur(0px); }
+
+.anim-glow .card { box-shadow: 0 0 15px rgba(236, 72, 153, 0.4); border-color: #ec4899; }
+.font-mono .dashboard-wrapper { font-family: monospace !important; }
+
+/* Anxious Breathing Circle */
+.breathing-circle { width: 400px; height: 400px; border-radius: 50%; background: rgba(56, 189, 248, 0.05); position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; pointer-events: none; opacity: 0; }
+.anim-breathe { opacity: 1; animation: breathe 8s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+@keyframes breathe { 0%, 100% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.1; } 50% { transform: translate(-50%, -50%) scale(2); opacity: 0.8; } }
