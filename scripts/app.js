@@ -54,22 +54,22 @@ async function getBoringFact() {
 // Mood Configurations (Action Text Updated)
 const moodConfig = {
     depressed: {
-        title: "Low Energy Mode.", text: "We've dimmed the lights. Your tasks are still here, but they aren't yelling at you.", actionText: "Give me an easy win", containerClass: 'anim-float'
+        title: "Low Energy Mode.", text: "Let's dim the lights. Your tasks are still here, but they aren't yelling at you.", actionText: "Give me an easy win", containerClass: 'anim-float'
     },
     anxious: {
         title: "Focus on the pulse.", text: "The dashboard is anchored in deep blue. Follow the breathing circle.", actionText: "Block out the noise", containerClass: ''
     },
     stressed: {
-        title: "Structured & Grounded.", text: "Warm tones. No harsh white light. Let's look at one action item at a time.", actionText: "Sort this out", containerClass: ''
+        title: "Structured & Grounded.", text: "Let's look at one action item at a time.", actionText: "Sort this out", containerClass: ''
     },
     happy: {
-        title: "Momentum.", text: "Bright, crisp, and clear. You've got the energy, the workspace is ready.", actionText: "Let's Go!", containerClass: ''
+        title: "Momentum.", text: "You've got the energy, the workspace is ready.", actionText: "Let's Go!", containerClass: ''
     },
     overstimulated: {
-        title: "Dark Room Mode.", text: "Lights out. High-contrast colors removed. The UI is quiet now.", actionText: "Quiet the room completely", containerClass: ''
+        title: "Dark Room Mode.", text: "Lights out. The UI is quiet now.", actionText: "Quiet the room completely", containerClass: ''
     },
     'burned-out': {
-        title: "Brain Fog Engaged.", text: "Your workload is blurred out. You don't have to look at it.", actionText: "Clear the deck", containerClass: 'anim-blur'
+        title: "Brain Fog Engaged.", text: "Your workload is blurred out so you don't have to look at it.", actionText: "Clear the deck", containerClass: 'anim-blur'
     },
     delulu: {
         title: "Main Character Energy.", text: "These aren't tasks, they are plot points. You are unstoppable.", actionText: "Engage Plot Armor", containerClass: 'anim-glow'
@@ -107,13 +107,19 @@ document.querySelectorAll('.mood-option').forEach(btn => {
 });
 
 // --- THE INTERVENTIONS (Action Button Logic) ---
-actionBtn.addEventListener('click', () => {
+actionBtn.addEventListener('click', async () => {
     
-    // Depressed: Gentle fact -> Fades -> Clean Slate
+    // Hide the action button immediately so they don't click it twice while the API loads
+    actionBtn.style.display = 'none';
+    
+    // Depressed: API Fact -> Fades -> Clean Slate
     if (currentMood === 'depressed') {
+        actionBtn.textContent = "Loading..."; // Optional visual feedback
+        const factText = await getGentleFact(); // The API Call
+        
         const factDiv = document.createElement('div');
         factDiv.className = 'fact-overlay';
-        factDiv.textContent = gentleFacts[Math.floor(Math.random() * gentleFacts.length)];
+        factDiv.textContent = factText;
         document.body.appendChild(factDiv);
         
         setTimeout(() => factDiv.classList.add('fact-fade-out'), 5000);
@@ -135,14 +141,14 @@ actionBtn.addEventListener('click', () => {
 
     // Stressed: Funnel + Time Travel + Chunking
     if (currentMood === 'stressed') {
-        document.querySelector('.subtitle').textContent = "There is plenty of time.";
+        document.querySelector('.subtitle').textContent = "Relax. There is plenty of time.";
         document.querySelectorAll('.big-number')[1].textContent = "0"; 
         document.querySelector('.task-card ul').classList.add('funnel-vision');
         
         const firstTask = document.querySelector('.task-card li');
         firstTask.classList.add('stress-chunked');
         
-        // Notice the stagger-in class and the animation-delay spacing
+        // Stagger-in class and animation-delay 
         firstTask.innerHTML = `
             <strong>Finalize Q3 Report:</strong>
             <div class="sub-tasks">
@@ -154,6 +160,9 @@ actionBtn.addEventListener('click', () => {
                 </label>
                 <label class="stagger-in" style="animation-delay: 2.5s">
                     <input type="checkbox"> 3. Decide next step
+                </label>
+                <label class="stagger-in" style="animation-delay: 2.5s">
+                    <input type="checkbox"> 4. You've got this
                 </label>
             </div>
         `;
@@ -237,22 +246,24 @@ actionBtn.addEventListener('click', () => {
         document.addEventListener('mousemove', sparkleHandler);
     }
 
-    // Apathetic: The Shrug + Boring Fact Overlay
-    if (currentMood === 'apathetic') {
-        dashboardWrapper.classList.add('tilt-shrug');
-        
-        const factDiv = document.createElement('div');
-        factDiv.className = 'fact-overlay';
-        factDiv.textContent = boringFacts[Math.floor(Math.random() * boringFacts.length)];
-        document.body.appendChild(factDiv);
-        
-        setTimeout(() => factDiv.classList.add('fact-fade-out'), 4000);
-        setTimeout(() => factDiv.remove(), 6000);
-    }
-
-    // Hide the action button after clicking so they don't spam it
-    actionBtn.style.display = 'none';
-});
+    // Apathetic: The Shrug + API Boring Fact
+        if (currentMood === 'apathetic') {
+            dashboardWrapper.classList.add('tilt-shrug');
+            
+            const factText = await getBoringFact(); // The API Call
+            
+            const factDiv = document.createElement('div');
+            factDiv.className = 'fact-overlay';
+            factDiv.textContent = factText;
+            document.body.appendChild(factDiv);
+            
+            setTimeout(() => factDiv.classList.add('fact-fade-out'), 4000);
+            setTimeout(() => factDiv.remove(), 6000);
+        }
+    });
+        // Hide the action button after clicking so they don't spam it
+        actionBtn.style.display = 'none';
+    });
 
 // --- RESET THE WORLD ---
 resetBtn.addEventListener('click', () => {
@@ -273,6 +284,5 @@ resetBtn.addEventListener('click', () => {
     actionBtn.style.display = 'block';
 
     // Reload the page to guarantee a fresh, untampered dashboard
-    // (This is the easiest way to undo aggressive DOM manipulation like text overwriting)
     setTimeout(() => location.reload(), 200); 
 });
