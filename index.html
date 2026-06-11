@@ -4,191 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Mood Page</title>
-    <style>
-        /* Base Variables */
-        :root {
-            --bg-color: #f4f4f5;
-            --text-color: #18181b;
-            --btn-bg: #27272a;
-            --btn-text: #ffffff;
-            --transition-speed: 1.5s;
-        }
-
-        /* The Mood Themes */
-        body.theme-depressed {
-            --bg-color: #121214;
-            --text-color: #8b8b99;
-            --btn-bg: #272730;
-            --btn-text: #a1a1aa;
-        }
-        
-        body.theme-anxious {
-            --bg-color: #0c1b2e;
-            --text-color: #e0f2fe;
-            --btn-bg: #1e3a8a;
-            --btn-text: #bae6fd;
-        }
-
-        body.theme-happy {
-            --bg-color: #dcfce7;
-            --text-color: #14532d;
-            --btn-bg: #22c55e;
-            --btn-text: #ffffff;
-        }
-
-        body.theme-stressed {
-            --bg-color: #fffbeb;
-            --text-color: #78350f;
-            --btn-bg: #d97706;
-            --btn-text: #fffbeb;
-        }
-
-        /* Global Styles */
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: system-ui, -apple-system, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            transition: background-color var(--transition-speed) ease-in-out, 
-                        color var(--transition-speed) ease-in-out;
-            overflow: hidden;
-        }
-
-        .container {
-            text-align: center;
-            max-width: 600px;
-            padding: 2rem;
-            z-index: 10;
-        }
-
-        h1 { font-size: 2.5rem; margin-bottom: 1rem; transition: color var(--transition-speed); }
-        p { font-size: 1.2rem; line-height: 1.6; margin-bottom: 2rem; opacity: 0.9; }
-
-        /* Buttons */
-        button {
-            background-color: var(--btn-bg);
-            color: var(--btn-text);
-            border: none;
-            padding: 1rem 2rem;
-            font-size: 1.25rem;
-            border-radius: 999px;
-            cursor: pointer;
-            transition: all 0.3s ease, background-color var(--transition-speed), color var(--transition-speed);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        button:hover { transform: translateY(-2px); opacity: 0.9; }
-        
-        .main-btn { font-weight: bold; font-size: 1.5rem; padding: 1.2rem 3rem; }
-
-        /* UI States */
-        .hidden { display: none !important; }
-        
-        #mood-selector {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        #mood-selector.visible { opacity: 1; }
-
-        .mood-option {
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
-            border: 2px solid var(--btn-bg);
-            background: transparent;
-            color: var(--text-color);
-        }
-
-        .mood-option:hover { background: var(--btn-bg); color: var(--btn-text); }
-
-        #context-actions { margin-top: 2rem; }
-
-        /* Specific Mood Animations */
-        
-        /* Depressed: Gentle float */
-        .anim-float { animation: float 6s ease-in-out infinite; }
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        /* Anxious: 4-count Breathing Circle */
-        .breathing-circle {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 0;
-            pointer-events: none;
-            opacity: 0;
-        }
-        .anim-breathe {
-            opacity: 1;
-            /* 4s in, 4s out = 8s total cycle */
-            animation: breathe 8s cubic-bezier(0.4, 0, 0.2, 1) infinite; 
-        }
-        @keyframes breathe {
-            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.3; }
-            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.8; }
-            100% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.3; }
-        }
-
-        /* Happy: Subtle pulse */
-        .anim-pulse { animation: pulse 2s infinite; }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        /* Stressed: Grounded structure (no animation, just solid layout shifts) */
-        .anim-grounded {
-            border: 2px solid var(--text-color);
-            padding: 2rem;
-            border-radius: 8px;
-            background: rgba(255,255,255,0.5);
-        }
-
-        .reset-btn {
-            position: fixed;
-            bottom: 2rem;
-            font-size: 0.9rem;
-            padding: 0.5rem 1rem;
-            opacity: 0.5;
-            background: transparent;
-            color: var(--text-color);
-            border: 1px solid var(--text-color);
-        }
-        .reset-btn:hover { opacity: 1; }
-
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- Ambient Background Elements -->
     <div id="ambient-breathe" class="breathing-circle"></div>
 
     <div class="container" id="main-container">
-        <!-- Initial State -->
         <div id="initial-view">
             <button class="main-btn" id="trigger-btn">Mood</button>
         </div>
 
-        <!-- Selection State -->
         <div id="selector-view" class="hidden">
             <h1>How are we feeling?</h1>
             <p>Select your current state so we can adjust the room.</p>
@@ -197,10 +23,13 @@
                 <button class="mood-option" data-mood="anxious">Anxious</button>
                 <button class="mood-option" data-mood="stressed">Stressed</button>
                 <button class="mood-option" data-mood="happy">Happy</button>
+                <button class="mood-option" data-mood="overstimulated">Overstimulated</button>
+                <button class="mood-option" data-mood="burned-out">Burned Out</button>
+                <button class="mood-option" data-mood="delulu">Delulu</button>
+                <button class="mood-option" data-mood="apathetic">Apathetic</button>
             </div>
         </div>
 
-        <!-- Result State -->
         <div id="result-view" class="hidden">
             <h1 id="result-title">Title</h1>
             <p id="result-text">Description goes here.</p>
@@ -210,114 +39,8 @@
         </div>
     </div>
 
-    <!-- The Kicker Reset -->
     <button id="reset-btn" class="reset-btn hidden">Mood.</button>
 
-    <script>
-        // DOM Elements
-        const body = document.body;
-        const container = document.getElementById('main-container');
-        const triggerBtn = document.getElementById('trigger-btn');
-        const initialView = document.getElementById('initial-view');
-        const selectorView = document.getElementById('selector-view');
-        const moodSelector = document.getElementById('mood-selector');
-        const resultView = document.getElementById('result-view');
-        const resetBtn = document.getElementById('reset-btn');
-        
-        const resultTitle = document.getElementById('result-title');
-        const resultText = document.getElementById('result-text');
-        const actionBtn = document.getElementById('action-btn');
-        const ambientBreathe = document.getElementById('ambient-breathe');
-
-        // Mood Configurations
-        const moodConfig = {
-            depressed: {
-                title: "It's okay to just exist right now.",
-                text: "No demands. No loud noises. We've dimmed the lights and slowed things down. Take all the time you need.",
-                actionText: "Tell me something gentle",
-                containerClass: 'anim-float'
-            },
-            anxious: {
-                title: "Follow the circle.",
-                text: "Breathe in as it grows. Breathe out as it shrinks. The nervous system just needs a steady rhythm to follow right now.",
-                actionText: "Help me ground myself",
-                containerClass: '' // Handled by ambient element
-            },
-            stressed: {
-                title: "Okay, let's sort this out.",
-                text: "One thing at a time. No chaos, just structure. We can break down whatever is in front of you.",
-                actionText: "Help me prioritize",
-                containerClass: 'anim-grounded'
-            },
-            happy: {
-                title: "Yes! Love this for you.",
-                text: "Let's capture this energy! The page is genuinely celebrating with you.",
-                actionText: "Let's celebrate!",
-                containerClass: 'anim-pulse'
-            }
-        };
-
-        // Step 1: Click "Mood" -> Show Selector
-        triggerBtn.addEventListener('click', () => {
-            initialView.classList.add('hidden');
-            selectorView.classList.remove('hidden');
-            // Slight delay for smooth fade in
-            setTimeout(() => {
-                moodSelector.classList.add('visible');
-            }, 50);
-        });
-
-        // Step 2: Select Mood -> Transform Page
-        document.querySelectorAll('.mood-option').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const mood = e.target.getAttribute('data-mood');
-                applyMood(mood);
-            });
-        });
-
-        function applyMood(mood) {
-            // Clean up old classes
-            body.className = '';
-            container.className = 'container';
-            ambientBreathe.classList.remove('anim-breathe');
-
-            // Hide selector, show results
-            selectorView.classList.add('hidden');
-            resultView.classList.remove('hidden');
-            resetBtn.classList.remove('hidden');
-
-            // Apply new theme and content
-            body.classList.add(`theme-${mood}`);
-            const config = moodConfig[mood];
-            
-            resultTitle.textContent = config.title;
-            resultText.textContent = config.text;
-            actionBtn.textContent = config.actionText;
-
-            // Apply specific animations
-            if (config.containerClass) {
-                container.classList.add(config.containerClass);
-            }
-            if (mood === 'anxious') {
-                ambientBreathe.classList.add('anim-breathe');
-            }
-        }
-
-        // The Kicker: Reset everything back to zero context
-        resetBtn.addEventListener('click', () => {
-            body.className = '';
-            container.className = 'container';
-            ambientBreathe.classList.remove('anim-breathe');
-            
-            resultView.classList.add('hidden');
-            selectorView.classList.add('hidden');
-            resetBtn.classList.add('hidden');
-            
-            initialView.classList.remove('hidden');
-            moodSelector.classList.remove('visible');
-            
-            triggerBtn.textContent = "Mood.";
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
