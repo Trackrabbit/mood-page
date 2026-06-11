@@ -119,7 +119,9 @@ body {
 .context-box {
     position: fixed; 
     bottom: 2rem; 
-    left: 2rem; 
+    right: 2rem; /* Anchors to the right side now */
+    left: auto;  /* Clears any previous left anchoring */
+    transform: none; /* Clears the previous center-screen alignment */
     background: rgba(255, 255, 255, 0.1); 
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px); 
