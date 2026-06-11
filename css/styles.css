@@ -173,13 +173,18 @@ body {
 }
 .fact-fade-out { opacity: 0; pointer-events: none; }
 
-/* Anxious: Breathing Takeover */
-.breathing-takeover {
-    transform: translate(-50%, -50%) scale(12) !important;
-    background: rgba(56, 189, 248, 0.8) !important;
-    z-index: 250 !important;
+/* Anxious: Gentle Focus (Replaces the extreme takeover) */
+.breathing-focus {
+    z-index: 250 !important; /* Brings the circle in front of the dashboard */
+    background: rgba(56, 189, 248, 0.15) !important; /* Makes it slightly more distinct */
+    transition: all 2s ease;
 }
-.dashboard-blurred { filter: blur(15px); pointer-events: none; transition: filter 2s ease; }
+
+.dashboard-dimmed { 
+    opacity: 0.15; /* Fades the tasks into the shadows without blurring them */
+    pointer-events: none; 
+    transition: opacity 2s ease; 
+}
 
 /* Stressed: Funnel Vision */
 .funnel-vision li:not(:first-child) { filter: blur(4px); opacity: 0.4; pointer-events: none; }
