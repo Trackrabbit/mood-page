@@ -31,6 +31,18 @@ body.theme-stressed {
     --border: #fcd34d; --accent: #d97706;
 }
 
+body.theme-happy {
+    --bg-main: #f0fdf4; 
+    --bg-card: #ffffff; 
+    --bg-sidebar: #22c55e; 
+    --text-main: #14532d; 
+    --text-muted: #16a34a; 
+    --text-sidebar: #ffffff;
+    --border: #bbf7d0; 
+    --accent: #eab308; 
+    --btn-text: #ffffff;
+}
+
 body.theme-overstimulated {
     --bg-main: #000000; --bg-card: #050505; --bg-sidebar: #000000;
     --text-main: #3f3f46; --text-muted: #27272a; --text-sidebar: #27272a;
@@ -103,13 +115,20 @@ body {
 .mood-option:hover { background: var(--text-main); color: var(--bg-main); }
 .close-btn { background: transparent; color: var(--text-muted); border: none; cursor: pointer; margin-top: 1rem; }
 
-/* The Context Box (Non-descript message) */
+/* The Context Box */
 .context-box {
-    position: fixed; top: 2rem; left: 50%; transform: translateX(-50%);
-    background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px); border: 1px solid var(--border);
-    padding: 1.5rem; border-radius: 12px; width: 400px; z-index: 150;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center;
+    position: fixed; 
+    bottom: 2rem; 
+    left: 2rem; 
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px); 
+    border: 1px solid var(--border);
+    padding: 1.5rem; 
+    border-radius: 12px; 
+    width: 350px; 
+    z-index: 150;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
 }
 .context-box h4 { margin: 0 0 0.5rem 0; font-size: 1.2rem; }
 .context-box p { margin: 0 0 1.5rem 0; font-size: 0.95rem; opacity: 0.9; }
@@ -162,6 +181,26 @@ body {
 
 /* Stressed: Funnel Vision */
 .funnel-vision li:not(:first-child) { filter: blur(4px); opacity: 0.4; pointer-events: none; }
+
+.task-card li.stress-chunked {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.stress-chunked .sub-tasks {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-left: 1.5rem;
+    width: 100%;
+}
+
+.stress-chunked .sub-tasks label {
+    display: flex;
+    gap: 0.5rem;
+    cursor: pointer;
+}
 
 /* Overstimulated: Extreme Zen */
 .zen-mode .sidebar, .zen-mode .top-nav { display: none !important; }
