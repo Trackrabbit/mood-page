@@ -204,6 +204,20 @@ body {
     cursor: pointer;
 }
 
+/* Staggered Entrance for Stressed Subtasks */
+.stagger-in {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: slideFadeIn 0.8s ease forwards;
+}
+
+@keyframes slideFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Overstimulated: Extreme Zen */
 .zen-mode .sidebar, .zen-mode .top-nav { display: none !important; }
 .zen-mode .card { border: none; box-shadow: none; background: transparent; }
