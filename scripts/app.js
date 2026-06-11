@@ -110,14 +110,22 @@ actionBtn.addEventListener('click', () => {
     }
 
     // Stressed: Funnel + Time Travel + Chunking
-    if (currentMood === 'stressed') {
-        document.querySelector('.subtitle').textContent = "There is plenty of time.";
-        document.querySelectorAll('.big-number')[1].textContent = "0"; // Erase overdue tasks
-        document.querySelector('.task-card ul').classList.add('funnel-vision');
-        
-        const firstTask = document.querySelector('.task-card li');
-        firstTask.innerHTML = `<strong>Finalize Q3 Report:</strong><br><br><input type="checkbox"> 1. Open document<br><input type="checkbox"> 2. Read first paragraph<br><input type="checkbox"> 3. Decide next step`;
-    }
+        if (currentMood === 'stressed') {
+            document.querySelector('.subtitle').textContent = "There is plenty of time.";
+            document.querySelectorAll('.big-number')[1].textContent = "0"; 
+            document.querySelector('.task-card ul').classList.add('funnel-vision');
+            
+            const firstTask = document.querySelector('.task-card li');
+            firstTask.classList.add('stress-chunked');
+            firstTask.innerHTML = `
+                <strong>Finalize Q3 Report:</strong>
+                <div class="sub-tasks">
+                    <label><input type="checkbox"> 1. Open document</label>
+                    <label><input type="checkbox"> 2. Read first paragraph</label>
+                    <label><input type="checkbox"> 3. Decide next step</label>
+                </div>
+            `;
+        }
 
     // Happy: Confetti + Hype Man + Gamification
     if (currentMood === 'happy') {
