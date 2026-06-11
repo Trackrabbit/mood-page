@@ -110,22 +110,30 @@ actionBtn.addEventListener('click', () => {
     }
 
     // Stressed: Funnel + Time Travel + Chunking
-        if (currentMood === 'stressed') {
-            document.querySelector('.subtitle').textContent = "There is plenty of time.";
-            document.querySelectorAll('.big-number')[1].textContent = "0"; 
-            document.querySelector('.task-card ul').classList.add('funnel-vision');
-            
-            const firstTask = document.querySelector('.task-card li');
-            firstTask.classList.add('stress-chunked');
-            firstTask.innerHTML = `
-                <strong>Finalize Q3 Report:</strong>
-                <div class="sub-tasks">
-                    <label><input type="checkbox"> 1. Open document</label>
-                    <label><input type="checkbox"> 2. Read first paragraph</label>
-                    <label><input type="checkbox"> 3. Decide next step</label>
-                </div>
-            `;
-        }
+    if (currentMood === 'stressed') {
+        document.querySelector('.subtitle').textContent = "There is plenty of time.";
+        document.querySelectorAll('.big-number')[1].textContent = "0"; 
+        document.querySelector('.task-card ul').classList.add('funnel-vision');
+        
+        const firstTask = document.querySelector('.task-card li');
+        firstTask.classList.add('stress-chunked');
+        
+        // Notice the stagger-in class and the animation-delay spacing
+        firstTask.innerHTML = `
+            <strong>Finalize Q3 Report:</strong>
+            <div class="sub-tasks">
+                <label class="stagger-in" style="animation-delay: 0.5s">
+                    <input type="checkbox"> 1. Open document
+                </label>
+                <label class="stagger-in" style="animation-delay: 1.5s">
+                    <input type="checkbox"> 2. Read first paragraph
+                </label>
+                <label class="stagger-in" style="animation-delay: 2.5s">
+                    <input type="checkbox"> 3. Decide next step
+                </label>
+            </div>
+        `;
+    }
 
     // Happy: Confetti + Hype Man + Gamification
     if (currentMood === 'happy') {
