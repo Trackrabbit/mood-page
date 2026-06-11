@@ -1,11 +1,9 @@
 // DOM Elements
 const body = document.body;
-const container = document.getElementById('main-container');
 const triggerBtn = document.getElementById('trigger-btn');
-const initialView = document.getElementById('initial-view');
-const selectorView = document.getElementById('selector-view');
-const moodSelector = document.getElementById('mood-selector');
-const resultView = document.getElementById('result-view');
+const selectorOverlay = document.getElementById('selector-overlay');
+const closeSelectorBtn = document.getElementById('close-selector-btn');
+const contextBox = document.getElementById('context-box');
 const resetBtn = document.getElementById('reset-btn');
 
 const resultTitle = document.getElementById('result-title');
@@ -16,112 +14,102 @@ const ambientBreathe = document.getElementById('ambient-breathe');
 // Mood Configurations
 const moodConfig = {
     depressed: {
-        title: "It's okay to just exist right now.",
-        text: "No demands. No loud noises. We've dimmed the lights and slowed things down. Take all the time you need.",
-        actionText: "Tell me something gentle",
+        title: "Low Energy Mode.",
+        text: "We've dimmed the lights and lowered the contrast. Your tasks are still here, but they aren't yelling at you anymore.",
+        actionText: "Suggest an easy win",
         containerClass: 'anim-float'
     },
     anxious: {
-        title: "Follow the circle.",
-        text: "Breathe in as it grows. Breathe out as it shrinks. The nervous system just needs a steady rhythm to follow right now.",
-        actionText: "Help me ground myself",
+        title: "Focus on the pulse.",
+        text: "The dashboard is anchored in deep blue. Follow the breathing circle in the background if you feel overwhelmed.",
+        actionText: "Block incoming messages",
         containerClass: ''
     },
     stressed: {
-        title: "Okay, let's sort this out.",
-        text: "One thing at a time. No chaos, just structure. We can break down whatever is in front of you.",
-        actionText: "Help me prioritize",
-        containerClass: 'anim-grounded'
+        title: "Structured & Grounded.",
+        text: "Warm tones. No harsh white light. Let's look at one action item at a time.",
+        actionText: "Hide overdue tasks",
+        containerClass: ''
     },
     happy: {
-        title: "Yes! Love this for you.",
-        text: "Let's capture this energy! The page is genuinely celebrating with you.",
-        actionText: "Let's celebrate!",
-        containerClass: 'anim-pulse'
+        title: "Momentum.",
+        text: "Bright, crisp, and clear. You've got the energy, the workspace is ready to keep up.",
+        actionText: "Tackle the hardest task",
+        containerClass: ''
     },
     overstimulated: {
-        title: "Shhh.",
-        text: "We've turned off the lights and muted the internet. The contrast is low so it doesn't hurt your eyes. No one is perceiving you here.",
-        actionText: "Give me one quiet, simple task",
+        title: "Dark Room Mode.",
+        text: "Lights out. High-contrast colors removed. The UI is quiet now.",
+        actionText: "Hide sidebar",
         containerClass: ''
     },
     'burned-out': {
-        title: "Battery at 1%.",
-        text: "You don't need to be productive right now. The brain fog is real. Let's just exist on standby until the charger kicks in.",
-        actionText: "Send me a mindless distraction",
+        title: "Brain Fog Engaged.",
+        text: "Your workload is blurred out. You don't have to look at it until you explicitly hover over it.",
+        actionText: "Mark all as read",
         containerClass: 'anim-blur'
     },
     delulu: {
         title: "Main Character Energy.",
-        text: "Plot armor is fully engaged. Whatever you're worrying about is just necessary character development for your upcoming season finale.",
-        actionText: "Hype me up even more",
+        text: "These aren't tasks, they are plot points. You are literally unstoppable right now.",
+        actionText: "Auto-complete everything",
         containerClass: 'anim-glow'
     },
     apathetic: {
-        title: "Whatever.",
-        text: "Everything is just kind of 'eh' today. We're not sad, we're not mad, we're just completely and totally whelmed. And that's fine.",
-        actionText: "Roll a random, pointless fact",
+        title: "Monospace / Monotone.",
+        text: "Everything is grey. It doesn't really matter. We're just clicking buttons.",
+        actionText: "Whatever",
         containerClass: 'font-mono'
     }
 };
 
-// Step 1: Click "Mood" -> Show Selector
+// Open Selector
 triggerBtn.addEventListener('click', () => {
-    initialView.classList.add('hidden');
-    selectorView.classList.remove('hidden');
-    setTimeout(() => {
-        moodSelector.classList.add('visible');
-    }, 50);
+    selectorOverlay.classList.remove('hidden');
 });
 
-// Step 2: Select Mood -> Transform Page
+// Close Selector
+closeSelectorBtn.addEventListener('click', () => {
+    selectorOverlay.classList.add('hidden');
+});
+
+// Apply Mood
 document.querySelectorAll('.mood-option').forEach(btn => {
     btn.addEventListener('click', (e) => {
         const mood = e.target.getAttribute('data-mood');
-        applyMood(mood);
+        
+        // Wipe slate clean
+        body.className = '';
+        ambientBreathe.classList.remove('anim-breathe');
+
+        // Apply new mood class
+        body.classList.add(`theme-${mood}`);
+        const config = moodConfig[mood];
+
+        // Populate Context Box
+        resultTitle.textContent = config.title;
+        resultText.textContent = config.text;
+        actionBtn.textContent = config.actionText;
+
+        // Manage UI visibility
+        selectorOverlay.classList.add('hidden');
+        contextBox.classList.remove('hidden');
+        triggerBtn.classList.add('hidden'); // Hide the trigger button while a mood is active
+
+        // Apply animations
+        if (config.containerClass) {
+            body.classList.add(config.containerClass);
+        }
+        if (mood === 'anxious') {
+            ambientBreathe.classList.add('anim-breathe');
+        }
     });
 });
 
-function applyMood(mood) {
-    // Clean up old classes
-    body.className = '';
-    container.className = 'container';
-    ambientBreathe.classList.remove('anim-breathe');
-
-    // Hide selector, show results
-    selectorView.classList.add('hidden');
-    resultView.classList.remove('hidden');
-    resetBtn.classList.remove('hidden');
-
-    // Apply new theme and content
-    body.classList.add(`theme-${mood}`);
-    const config = moodConfig[mood];
-    
-    resultTitle.textContent = config.title;
-    resultText.textContent = config.text;
-    actionBtn.textContent = config.actionText;
-
-    // Apply specific animations
-    if (config.containerClass) {
-        container.classList.add(config.containerClass);
-    }
-    if (mood === 'anxious') {
-        ambientBreathe.classList.add('anim-breathe');
-    }
-}
-
-// The Kicker: Reset everything back to zero context
+// Reset Dashboard
 resetBtn.addEventListener('click', () => {
     body.className = '';
-    container.className = 'container';
     ambientBreathe.classList.remove('anim-breathe');
-    
-    resultView.classList.add('hidden');
-    selectorView.classList.add('hidden');
-    resetBtn.classList.add('hidden');
-    
-    initialView.classList.remove('hidden');
-    moodSelector.classList.remove('visible');
-    
-    triggerBtn.textContent = "Mood.";
+    contextBox.classList.add('hidden');
+    triggerBtn.classList.remove('hidden');
 });
