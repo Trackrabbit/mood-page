@@ -129,13 +129,13 @@ actionBtn.addEventListener('click', async () => {
         }, 7000);
     }
 
-    // Anxious: 16-Second Blackout Takeover
+    // Anxious: 16-Second Gentle Focus
     if (currentMood === 'anxious') {
-        ambientBreathe.classList.add('breathing-takeover');
-        dashboardWrapper.classList.add('dashboard-blurred');
+        ambientBreathe.classList.add('breathing-focus');
+        dashboardWrapper.classList.add('dashboard-dimmed');
         setTimeout(() => {
-            ambientBreathe.classList.remove('breathing-takeover');
-            dashboardWrapper.classList.remove('dashboard-blurred');
+            ambientBreathe.classList.remove('breathing-focus');
+            dashboardWrapper.classList.remove('dashboard-dimmed');
         }, 16000); // Two full 8-second breathing cycles
     }
 
