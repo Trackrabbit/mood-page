@@ -15,17 +15,41 @@ const ambientBreathe = document.getElementById('ambient-breathe');
 let currentMood = "";
 let sparkleHandler = null; // To track and remove the sparkle event listener
 
-// The Arrays of Facts
-const gentleFacts = [
+// Fallback facts (just in case the user is offline or the API fails)
+const fallbackGentleFacts = [
     "Otters hold hands when they sleep so they don't drift apart.",
     "Cows have best friends and get stressed when separated.",
     "A group of pugs is called a grumble."
 ];
-const boringFacts = [
+const fallbackBoringFacts = [
     "A standard #2 pencil is yellow.",
     "The plastic thing on the end of a shoelace is an aglet.",
     "The dot over the letter 'i' is called a tittle."
 ];
+
+// API Call for a gentle/uplifting fact (Using a Dog Facts API)
+async function getGentleFact() {
+    try {
+        const response = await fetch('https://dogapi.dog/api/v2/facts');
+        const data = await response.json();
+        return data.data[0].attributes.body;
+    } catch (error) {
+        console.warn("API failed, using fallback.");
+        return fallbackGentleFacts[Math.floor(Math.random() * fallbackGentleFacts.length)];
+    };
+};
+
+// API Call for a completely pointless fact (Using Useless Facts API)
+async function getBoringFact() {
+    try {
+        const response = await fetch('https://uselessfacts.jsph.pl/api/v2/facts/random');
+        const data = await response.json();
+        return data.text;
+    } catch (error) {
+        console.warn("API failed, using fallback.");
+        return fallbackBoringFacts[Math.floor(Math.random() * fallbackBoringFacts.length)];
+    };
+};
 
 // Mood Configurations (Action Text Updated)
 const moodConfig = {
