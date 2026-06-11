@@ -36,8 +36,8 @@ async function getGentleFact() {
     } catch (error) {
         console.warn("API failed, using fallback.");
         return fallbackGentleFacts[Math.floor(Math.random() * fallbackGentleFacts.length)];
-    };
-};
+    }
+}
 
 // API Call for a completely pointless fact (Using Useless Facts API)
 async function getBoringFact() {
@@ -48,8 +48,8 @@ async function getBoringFact() {
     } catch (error) {
         console.warn("API failed, using fallback.");
         return fallbackBoringFacts[Math.floor(Math.random() * fallbackBoringFacts.length)];
-    };
-};
+    }
+}
 
 // Mood Configurations (Action Text Updated)
 const moodConfig = {
@@ -161,7 +161,7 @@ actionBtn.addEventListener('click', async () => {
                 <label class="stagger-in" style="animation-delay: 2.5s">
                     <input type="checkbox"> 3. Decide next step
                 </label>
-                <label class="stagger-in" style="animation-delay: 2.5s">
+                <label class="stagger-in" style="animation-delay: 3.5s">
                     <input type="checkbox"> 4. You've got this
                 </label>
             </div>
@@ -247,23 +247,20 @@ actionBtn.addEventListener('click', async () => {
     }
 
     // Apathetic: The Shrug + API Boring Fact
-        if (currentMood === 'apathetic') {
-            dashboardWrapper.classList.add('tilt-shrug');
-            
-            const factText = await getBoringFact(); // The API Call
-            
-            const factDiv = document.createElement('div');
-            factDiv.className = 'fact-overlay';
-            factDiv.textContent = factText;
-            document.body.appendChild(factDiv);
-            
-            setTimeout(() => factDiv.classList.add('fact-fade-out'), 4000);
-            setTimeout(() => factDiv.remove(), 6000);
-        }
-    });
-        // Hide the action button after clicking so they don't spam it
-        actionBtn.style.display = 'none';
-    });
+    if (currentMood === 'apathetic') {
+        dashboardWrapper.classList.add('tilt-shrug');
+        
+        const factText = await getBoringFact(); // The API Call
+        
+        const factDiv = document.createElement('div');
+        factDiv.className = 'fact-overlay';
+        factDiv.textContent = factText;
+        document.body.appendChild(factDiv);
+        
+        setTimeout(() => factDiv.classList.add('fact-fade-out'), 4000);
+        setTimeout(() => factDiv.remove(), 6000);
+    }
+}); 
 
 // --- RESET THE WORLD ---
 resetBtn.addEventListener('click', () => {
