@@ -258,3 +258,47 @@ body {
 .tilt-shrug {
     transform: rotate(2deg); transform-origin: center; transition: transform 0.5s ease;
 }
+
+/* Footer */
+
+.footer{
+  margin-top:24px;
+  padding-top:16px;
+
+  border-top:1px solid var(--border);
+
+  text-align:center;
+
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.5;
+
+  opacity:.9;
+}
+
+.footer-title{
+  color:var(--text);
+  font-weight:600;
+  font-size:12px;
+
+  margin-bottom:4px;
+}
+
+.footer-text{
+  margin-bottom:2px;
+}
+
+.footer:hover{
+  opacity:1;
+}
+
+.footer-version{
+  margin-top:6px;
+
+  font-size:10px;
+
+  letter-spacing:.08em;
+  text-transform:uppercase;
+
+  opacity:.65;
+}
