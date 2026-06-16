@@ -13,9 +13,9 @@ const resultText = document.getElementById('result-text');
 const ambientBreathe = document.getElementById('ambient-breathe');
 
 let currentMood = "";
-let sparkleHandler = null; // To track and remove the sparkle event listener
+let sparkleHandler = null; 
 
-// Fallback facts (just in case the user is offline or the API fails)
+// Fallback facts
 const fallbackGentleFacts = [
     "Otters hold hands when they sleep so they don't drift apart.",
     "Cows have best friends and get stressed when separated.",
@@ -27,7 +27,7 @@ const fallbackBoringFacts = [
     "The dot over the letter 'i' is called a tittle."
 ];
 
-// API Call for a gentle/uplifting fact (Using a Dog Facts API)
+// API Call for a gentle/uplifting fact
 async function getGentleFact() {
     try {
         const response = await fetch('https://dogapi.dog/api/v2/facts');
@@ -39,7 +39,7 @@ async function getGentleFact() {
     }
 }
 
-// API Call for a completely pointless fact (Using Useless Facts API)
+// API Call for a pointless fact
 async function getBoringFact() {
     try {
         const response = await fetch('https://uselessfacts.jsph.pl/api/v2/facts/random');
@@ -51,7 +51,7 @@ async function getBoringFact() {
     }
 }
 
-// Mood Configurations (Action Text Updated)
+// Mood Configurations
 const moodConfig = {
     depressed: {
         title: "Low Energy Mode.", text: "Let's dim the lights. Your tasks are still here, but they aren't yelling at you.", actionText: "Give me an easy win", containerClass: 'anim-float'
@@ -89,7 +89,7 @@ document.querySelectorAll('.mood-option').forEach(btn => {
         currentMood = e.target.getAttribute('data-mood');
         
         body.className = '';
-        ambientBreathe.classList.remove('anim-breathe');
+        ambientBreathe.classList.remove('anim-breathe', 'breathing-focus');
         body.classList.add(`theme-${currentMood}`);
         
         const config = moodConfig[currentMood];
@@ -109,13 +109,12 @@ document.querySelectorAll('.mood-option').forEach(btn => {
 // --- THE INTERVENTIONS (Action Button Logic) ---
 actionBtn.addEventListener('click', async () => {
     
-    // Hide the action button immediately so they don't click it twice while the API loads
     actionBtn.style.display = 'none';
     
-    // Depressed: API Fact -> Fades -> Clean Slate
+    // Depressed
     if (currentMood === 'depressed') {
-        actionBtn.textContent = "Loading..."; // Optional visual feedback
-        const factText = await getGentleFact(); // The API Call
+        actionBtn.textContent = "Loading..."; 
+        const factText = await getGentleFact(); 
         
         const factDiv = document.createElement('div');
         factDiv.className = 'fact-overlay';
@@ -129,17 +128,17 @@ actionBtn.addEventListener('click', async () => {
         }, 7000);
     }
 
-    // Anxious: 16-Second Gentle Focus
+    // Anxious
     if (currentMood === 'anxious') {
         ambientBreathe.classList.add('breathing-focus');
         dashboardWrapper.classList.add('dashboard-dimmed');
         setTimeout(() => {
             ambientBreathe.classList.remove('breathing-focus');
             dashboardWrapper.classList.remove('dashboard-dimmed');
-        }, 16000); // Two full 8-second breathing cycles
+        }, 16000); 
     }
 
-    // Stressed: Funnel + Time Travel + Chunking
+    // Stressed
     if (currentMood === 'stressed') {
         document.querySelector('.subtitle').textContent = "Relax. There is plenty of time.";
         document.querySelectorAll('.big-number')[1].textContent = "0"; 
@@ -148,7 +147,6 @@ actionBtn.addEventListener('click', async () => {
         const firstTask = document.querySelector('.task-card li');
         firstTask.classList.add('stress-chunked');
         
-        // Stagger-in class and animation-delay 
         firstTask.innerHTML = `
             <strong>Finalize Q3 Report:</strong>
             <div class="sub-tasks">
@@ -168,11 +166,10 @@ actionBtn.addEventListener('click', async () => {
         `;
     }
 
-    // Happy: Confetti + Hype Man + Gamification
+    // Happy
     if (currentMood === 'happy') {
         document.querySelector('h1').textContent = "You are literally crushing it right now.";
         
-        // Confetti cannon
         const colors = ['#22c55e', '#3b82f6', '#ec4899', '#eab308'];
         for(let i=0; i<75; i++) {
             const confetti = document.createElement('div');
@@ -184,7 +181,6 @@ actionBtn.addEventListener('click', async () => {
             setTimeout(() => confetti.remove(), 5000);
         }
 
-        // Gamification Combo
         let combo = 0;
         document.querySelectorAll('.task-card input').forEach(cb => {
             cb.addEventListener('change', (e) => {
@@ -202,14 +198,13 @@ actionBtn.addEventListener('click', async () => {
         });
     }
 
-    // Overstimulated: Zen Mode Extreme
+    // Overstimulated
     if (currentMood === 'overstimulated') {
         dashboardWrapper.classList.add('zen-mode');
     }
 
-    // Burned Out: Inbox Zero Illusion + The Sweep
+    // Burned Out
     if (currentMood === 'burned-out') {
-        // Drop metrics to zero
         let count = 142;
         const interval = setInterval(() => {
             count -= Math.floor(Math.random() * 10) + 2;
@@ -217,7 +212,6 @@ actionBtn.addEventListener('click', async () => {
             document.querySelectorAll('.big-number')[0].textContent = count;
         }, 50);
 
-        // Auto-sweep tasks
         const checkboxes = document.querySelectorAll('.task-card input[type="checkbox"]');
         checkboxes.forEach((cb, index) => {
             setTimeout(() => {
@@ -228,13 +222,13 @@ actionBtn.addEventListener('click', async () => {
         });
     }
 
-    // Delulu: Re-brand + Sparkle Cursor
+    // Delulu
     if (currentMood === 'delulu') {
         document.querySelectorAll('.card h3')[1].textContent = "Fashionably Late Masterpieces";
         document.querySelectorAll('.card h3')[2].textContent = "Main Character Quests";
         
         sparkleHandler = (e) => {
-            if(Math.random() > 0.3) return; // Don't spawn on *every* single pixel
+            if(Math.random() > 0.3) return; 
             const sparkle = document.createElement('div');
             sparkle.className = 'sparkle';
             sparkle.textContent = '✨';
@@ -246,11 +240,11 @@ actionBtn.addEventListener('click', async () => {
         document.addEventListener('mousemove', sparkleHandler);
     }
 
-    // Apathetic: The Shrug + API Boring Fact
+    // Apathetic
     if (currentMood === 'apathetic') {
         dashboardWrapper.classList.add('tilt-shrug');
         
-        const factText = await getBoringFact(); // The API Call
+        const factText = await getBoringFact(); 
         
         const factDiv = document.createElement('div');
         factDiv.className = 'fact-overlay';
@@ -264,22 +258,18 @@ actionBtn.addEventListener('click', async () => {
 
 // --- RESET THE WORLD ---
 resetBtn.addEventListener('click', () => {
-    // Remove all classes
     body.className = '';
-    ambientBreathe.classList.remove('anim-breathe', 'breathing-takeover');
-    dashboardWrapper.classList.remove('clean-slate', 'dashboard-blurred', 'funnel-vision', 'zen-mode', 'tilt-shrug');
+    ambientBreathe.classList.remove('anim-breathe', 'breathing-focus');
+    dashboardWrapper.classList.remove('clean-slate', 'dashboard-dimmed', 'funnel-vision', 'zen-mode', 'tilt-shrug');
     
-    // Remove specific event listeners
     if(sparkleHandler) {
         document.removeEventListener('mousemove', sparkleHandler);
         sparkleHandler = null;
     }
 
-    // Restore hidden UI and texts
     contextBox.classList.add('hidden');
     triggerBtn.classList.remove('hidden');
     actionBtn.style.display = 'block';
 
-    // Reload the page to guarantee a fresh, untampered dashboard
     setTimeout(() => location.reload(), 200); 
 });
