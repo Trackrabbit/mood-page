@@ -158,6 +158,7 @@ body {
 .clean-slate .metric-card, 
 .clean-slate .sidebar, 
 .clean-slate .top-nav,
+.clean-slate .dashboard-footer,
 .clean-slate .task-card li:not(:first-child) {
     display: none !important;
 }
@@ -224,7 +225,9 @@ body {
 }
 
 /* Overstimulated: Extreme Zen */
-.zen-mode .sidebar, .zen-mode .top-nav { display: none !important; }
+.zen-mode .sidebar, 
+.zen-mode .top-nav,
+.zen-mode .dashboard-footer { display: none !important; }
 .zen-mode .card { border: none; box-shadow: none; background: transparent; }
 
 /* Delulu: Sparkles */
@@ -259,46 +262,44 @@ body {
     transform: rotate(2deg); transform-origin: center; transition: transform 0.5s ease;
 }
 
-/* Footer */
-
-.footer{
-  margin-top:24px;
-  padding-top:16px;
-
-  border-top:1px solid var(--border);
-
-  text-align:center;
-
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.5;
-
-  opacity:.9;
+/* FOOTER STYLES */
+.dashboard-footer {
+    background: var(--bg-card);
+    border-top: 1px solid var(--border);
+    padding: 1rem 2rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    transition: all var(--transition-speed) ease;
+    z-index: 10;
 }
 
-.footer-title{
-  color:var(--text);
-  font-weight:600;
-  font-size:12px;
-
-  margin-bottom:4px;
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.footer-text{
-  margin-bottom:2px;
+.footer-links {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
 }
 
-.footer:hover{
-  opacity:1;
+.footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
 }
 
-.footer-version{
-  margin-top:6px;
+.footer-links a:hover {
+    color: var(--accent);
+}
 
-  font-size:10px;
-
-  letter-spacing:.08em;
-  text-transform:uppercase;
-
-  opacity:.65;
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent);
+    border-radius: 50%;
+    margin-right: 4px;
 }
